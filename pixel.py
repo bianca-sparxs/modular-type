@@ -110,7 +110,16 @@ def tmp_match(temp, img):
     dimX = temp.shape[1]
     dimY = temp.shape[0]
 
+    # the first element in the temp of T-Top is 3— is that like alpha channel or something?
+    print(temp.shape[::-1])
+
+    w = temp.shape[1]
+    h = temp.shape[2]
+
     result = cv2.matchTemplate(img, temp, cv2.TM_CCOEFF)
+    
+    # cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,255,255), 2) 
+
     minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
     duplicate = img.copy()
     cv2.rectangle(duplicate, maxLoc, (maxLoc[0]+dimX, maxLoc[1]+dimY), (0, 255, 0), 1)
@@ -122,6 +131,22 @@ def tmp_match(temp, img):
     result = cv2.matchTemplate(img, temp, cv2.TM_CCOEFF_NORMED)
     minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
     duplicate = img.copy()
+       
+         
+    threshold = 0.99
+  
+# Store the coordinates of matched area in a numpy array 
+    loc = np.where( result >= threshold)  
+  
+# Draw a rectangle around the matched region. 
+    i = 0 
+    for pt in zip(*loc[::-1]): 
+        cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,255,255), 1) 
+        i += 1
+
+        if i == 2000:
+            break
+
     cv2.rectangle(duplicate, maxLoc, (maxLoc[0] + dimX, maxLoc[1] + dimY), (0, 255, 0), 1)
     print("TM_CCOEFF_NORMED: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
           "\nThe max location:", maxLoc, "\n")
@@ -146,14 +171,18 @@ def tmp_match(temp, img):
     cv.imshow("TM_CCORR_NORMED", duplicate)
     cv.waitKey(0)
 
+
     result = cv2.matchTemplate(img, temp, cv2.TM_SQDIFF)
     minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
     duplicate = img.copy()
+
     cv2.rectangle(duplicate, minLoc, (minLoc[0] + dimX, minLoc[1] + dimY), (0, 255, 0), 1)
+
     print("TM_SQDIFF: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
           "\nThe max location:", maxLoc, "\n")
     cv.imshow("TM_SQDIFF", duplicate)
     cv.waitKey(0)
+    
 
     result = cv2.matchTemplate(img, temp, cv2.TM_SQDIFF_NORMED)
     minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
@@ -189,7 +218,9 @@ if __name__ == "__main__":
     # cv.waitKey(0)
     # tmp_match(template, image)
 
-    # img = cv.imread("letter_B.jpg")
+    img = cv.imread("./test/types.jpg")
+    temp = cv.imread("./test/T-top.png")
+    tmp_match(temp, img)
     # kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (2,2))
     # dilate = cv.dilate(img, kernel)
     # cv.imshow("what the fuck", dilate)
