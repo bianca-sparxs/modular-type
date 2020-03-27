@@ -106,99 +106,46 @@ def run(row, col):
 # 2. How to cut the templates in to desire shape
 # 3. The images have to be the same size for bitwise operations
 # 4.
-def tmp_match(temp, img):
+def create_match(temp, img, name, threshold=0.05):
     dimX = temp.shape[1]
     dimY = temp.shape[0]
 
-    # the first element in the temp of T-Top is 3— is that like alpha channel or something?
-    print(temp.shape[::-1])
 
+# the first element in the temp of T-Top is 3— is that like alpha channel or something?
     w = temp.shape[1]
-    h = temp.shape[2]
-
-    result = cv2.matchTemplate(img, temp, cv2.TM_CCOEFF)
+    h = temp.shape[0]
+    print('img shape {0}, temp shape {1}'.format(img.shape, temp.shape))
+    # print('w,h: {0},{1}, {2}'.format(w,h, temp.shape))
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    temp_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    result = cv2.matchTemplate(img, temp, getattr(cv2, name))
     
     # cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,255,255), 2) 
-
     minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
     duplicate = img.copy()
-    cv2.rectangle(duplicate, maxLoc, (maxLoc[0]+dimX, maxLoc[1]+dimY), (0, 255, 0), 1)
-    print("TM_CCOEFF: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
-          "\nThe max location:", maxLoc, "\n")
-    cv.imshow("TM_CCOEFF", duplicate)
-    cv.waitKey(0)
 
-    result = cv2.matchTemplate(img, temp, cv2.TM_CCOEFF_NORMED)
-    minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
-    duplicate = img.copy()
-       
-         
-    threshold = 0.99
-  
-# Store the coordinates of matched area in a numpy array 
     loc = np.where( result >= threshold)  
-  
-# Draw a rectangle around the matched region. 
-    i = 0 
     for pt in zip(*loc[::-1]): 
-        cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,255,255), 1) 
-        i += 1
+        cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,0,255), 1) 
 
-        if i == 2000:
-            break
+    print(result)
 
-    cv2.rectangle(duplicate, maxLoc, (maxLoc[0] + dimX, maxLoc[1] + dimY), (0, 255, 0), 1)
-    print("TM_CCOEFF_NORMED: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
-          "\nThe max location:", maxLoc, "\n")
-    cv.imshow("TM_CCOEFF_NORMED", duplicate)
-    cv.waitKey(0)
 
-    result = cv2.matchTemplate(img, temp, cv2.TM_CCORR)
-    minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
-    duplicate = img.copy()
-    cv2.rectangle(duplicate, maxLoc, (maxLoc[0] + dimX, maxLoc[1] + dimY), (0, 255, 0), 1)
-    print("TM_CCORR: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
-          "\nThe max location:", maxLoc, "\n")
-    cv.imshow("TM_CCORR", duplicate)
-    cv.waitKey(0)
-
-    result = cv2.matchTemplate(img, temp, cv2.TM_CCORR_NORMED)
-    minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
-    duplicate = img.copy()
-    cv2.rectangle(duplicate, maxLoc, (maxLoc[0] + dimX, maxLoc[1] + dimY), (0, 255, 0), 1)
-    print("TM_CCORR_NORMED: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
-          "\nThe max location:", maxLoc, "\n")
-    cv.imshow("TM_CCORR_NORMED", duplicate)
+    # cv2.rectangle(duplicate, maxLoc, (maxLoc[0]+dimX, maxLoc[1]+dimY), (0, 255, 0), 1)
+    print("{0}: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
+          "\nThe max location:".format(name), maxLoc, "\n")
+    cv.imshow(name, duplicate)
+    # cv.imshow(name, img_gray)
     cv.waitKey(0)
 
 
-    result = cv2.matchTemplate(img, temp, cv2.TM_SQDIFF)
-    minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
-    duplicate = img.copy()
-
-    cv2.rectangle(duplicate, minLoc, (minLoc[0] + dimX, minLoc[1] + dimY), (0, 255, 0), 1)
-
-    print("TM_SQDIFF: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
-          "\nThe max location:", maxLoc, "\n")
-    cv.imshow("TM_SQDIFF", duplicate)
-    cv.waitKey(0)
-    
-
-    result = cv2.matchTemplate(img, temp, cv2.TM_SQDIFF_NORMED)
-    minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
-    duplicate = img.copy()
-    cv2.rectangle(duplicate, minLoc, (minLoc[0] + dimX, minLoc[1] + dimY), (0, 255, 0), 1)
-    print("TM_SQDIFF_NORMED: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
-          "\nThe max location:", maxLoc, "\n")
-    cv.imshow("TM_SQDIFF_NORMED", duplicate)
-    cv.waitKey(0)
-
-
-    # cv2.rectangle(img, minLoc, (minLoc[0]+3, minLoc[1]+4), (0, 255, 0), 1)
-    # print("The min score:", minScore, "The max score", maxScore, "The min location:", minLoc, "The max location:", maxLoc, "\n")
-    # cv2.rectangle(img, minLoc, (minLoc[0]+3, minLoc[1]+4), (0, 255, 0), 1)
-    # cv2.imshow("what", img)
-    # cv2.waitKey(0)
+def tmp_match(temp, img):
+    create_match(temp, img, "TM_CCOEFF", threshold=4*10**5)
+    create_match(temp, img, "TM_CCOEFF_NORMED", threshold=0.5)
+    # create_match(temp, img, "TM_CCORR", threshold=0.75)
+    # create_match(temp, img, "TM_CCORR_NORMED", threshold=0.75)
+    # create_match(temp, img, "TM_SQDIFF", threshold=8*10**7)
+    create_match(temp, img, "TM_SQDIFF_NORMED", threshold=0.99)
 
 def process():
     pass
@@ -218,8 +165,8 @@ if __name__ == "__main__":
     # cv.waitKey(0)
     # tmp_match(template, image)
 
-    img = cv.imread("./test/types.jpg")
-    temp = cv.imread("./test/T-top.png")
+    img = cv.imread("./test/types2.jpg")
+    temp = cv.imread("./test/longbar.jpg")
     tmp_match(temp, img)
     # kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (2,2))
     # dilate = cv.dilate(img, kernel)
