@@ -21,8 +21,8 @@ if __name__ == '__main__':
         im = Image.open(infile)
         imgwidth, imgheight = im.size
         print('Image size is: %d x %d ' % (imgwidth, imgheight))    # the size of the input image
-        height = imgheight // 3     # the number decides how many columns you want
-        width = imgwidth // 2       # the number decides how many rows you want
+        height = imgheight // 1     # the number decides how many columns you want
+        width = imgwidth // 6       # the number decides how many rows you want
         start_num = 0
         for k, piece in enumerate(crop(im, height, width), start_num):
             img = Image.new('RGB', (width, height), 255)
