@@ -140,12 +140,12 @@ def create_match(temp, img, name, threshold=0.05):
 
 
 def tmp_match(temp, img):
-    create_match(temp, img, "TM_CCOEFF", threshold=4*10**5)
-    create_match(temp, img, "TM_CCOEFF_NORMED", threshold=0.5)
+    # create_match(temp, img, "TM_CCOEFF", threshold=4*10**5)
+    create_match(temp, img, "TM_CCOEFF_NORMED", threshold=0.68)
     # create_match(temp, img, "TM_CCORR", threshold=0.75)
-    # create_match(temp, img, "TM_CCORR_NORMED", threshold=0.75)
+    create_match(temp, img, "TM_CCORR_NORMED", threshold=0.88)
     # create_match(temp, img, "TM_SQDIFF", threshold=8*10**7)
-    create_match(temp, img, "TM_SQDIFF_NORMED", threshold=0.99)
+    # create_match(temp, img, "TM_SQDIFF_NORMED", threshold=0.99)
 
 def process():
     pass
@@ -166,7 +166,7 @@ if __name__ == "__main__":
     # tmp_match(template, image)
 
     img = cv.imread("./test/types2.jpg")
-    temp = cv.imread("./test/longbar.jpg")
+    temp = cv.imread("./test/T-top_p.jpg")
     tmp_match(temp, img)
     # kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (2,2))
     # dilate = cv.dilate(img, kernel)
