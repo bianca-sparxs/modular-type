@@ -1,0 +1,13 @@
+<!doctype html>
+<title>{% block title %}{% endblock %} ModType BlockChunk </title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1>Modular Type</h1>
+  <p>Enter what your string below</p>
+</nav>
+
+<section class="content">
+    <form role="form" method="POST" action="/">
+      <input type="text" name="letters">
+    </form>
+</section>
