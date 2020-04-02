@@ -1,4 +1,5 @@
 from PIL import Image, ImageFont, ImageDraw
+import pipeline
 
 def converter(string):
 
@@ -9,7 +10,7 @@ def converter(string):
 
 
     fontface = "typefaces/Grand9K Pixel.ttf"
-    fontsize = 64
+    fontsize = 500
     bgColor = "white"
     color="black"
 
@@ -17,11 +18,12 @@ def converter(string):
 
 
     width, height = getBound(string, typeface)
-    image = Image.new('RGB', (width + (width/2), height + (height/2)), bgColor)
+    image = Image.new('RGB', ( int(width + (width/2)), int(height + (height/2))), bgColor)
     draw = ImageDraw.Draw(image)
     draw.text(((width/4), (height/4)), string, font=typeface, fill=color, size=fontsize)
 
     image.show()
-    image.save("./test/output.jpg")
+    pipeline.imgPipe(image)
+    # image.save("./test/output.jpg")
 
-    return string
+    # return string

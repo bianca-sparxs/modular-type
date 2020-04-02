@@ -1,20 +1,17 @@
 from PIL import Image
 import os
 import glob
+import pixel
 
+#take in Image object from txt2img.py
+def imgPipe(image):
+    savepath = "./cam/img-1.jpg"
+    image.save(savepath)
 
-def crop(im, height, width):
-    imgwidth, imgheight = im.size
-    for i in range(imgheight // height):
-        for j in range(imgwidth // width):
-            box = (j * width, i * height, (j + 1) * width, (i + 1) * height)
-            yield im.crop(box)
-
-
-if __name__ == '__main__':
     imgdir = './cam'     # dir that stores the input image
     basename = 'img-*.jpg'      # name of the input image (
     filelist = glob.glob(os.path.join(imgdir, basename))
+
     for filenum, infile in enumerate(filelist):
         print(filenum)  # not rly useful
         print(infile)   # not rly useful
@@ -30,3 +27,20 @@ if __name__ == '__main__':
             path = os.path.join("./cam/cam%d.jpg" % int(k + 1))
             img.save(path)
             os.rename(path, os.path.join("./cam/cam%d.jpg" % int(k + 1)))
+
+    pixel.match(imgdir)
+    
+    
+
+
+
+
+def crop(im, height, width):
+    imgwidth, imgheight = im.size
+    for i in range(imgheight // height):
+        for j in range(imgwidth // width):
+            box = (j * width, i * height, (j + 1) * width, (i + 1) * height)
+            yield im.crop(box)
+    
+
+    

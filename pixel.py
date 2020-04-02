@@ -4,14 +4,14 @@ import cv2
 import os
 
 
-imgdir = './cam'
+# imgdir = './cam'
 tempdir = './test'
 
 # I deleted the making letter code but keep it in the slice branch C.O
 
-# 1. Use which method to do the template matching? - CCOEFF_NORM seems to be the constant(C.O)
-# 2. How to cut the templates in to desire shape - You did that! :D 
-# 3. The images have to be the same size for bitwise operations — for now, use monospace(C.O)
+# 1. Use which method to do the template matching?, CCOEFF_NORM seems to be the constant(C.O)
+# 2. How to cut the templates in to desire shape, You did that! :D 
+# 3. The images have to be the same size for bitwise operations, for now, use monospace(C.O)
 
 
 def create_match(temp, img, name, threshold=0.05):
@@ -19,7 +19,7 @@ def create_match(temp, img, name, threshold=0.05):
     dimY = temp.shape[0]
 
 
-# the first element in the temp of T-Top is 3— is that like alpha channel or something?
+# the first element in the temp of TTop is 3 is that like alpha channel or something?
 # I noticed that too... it's something like that, or maybe it stands for 3 colourspace (RGB)?
 # also i love writing notes in the comments lol
 
@@ -41,7 +41,6 @@ def create_match(temp, img, name, threshold=0.05):
 
     print(result)
 
-
     # cv2.rectangle(duplicate, maxLoc, (maxLoc[0]+dimX, maxLoc[1]+dimY), (0, 255, 0), 1)
     print("{0}: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
           "\nThe max location:".format(name), maxLoc, "\n")
@@ -62,32 +61,18 @@ def process():
     pass
 
 
-if __name__ == "__main__":
-    pass
-    # template = cv.imread("letter_A.jpg")
-    # image = cv.imread("letter_B.jpg")
-    # canvas = np.zeros(shape=[48, 36], dtype=np.uint8)
-    # image = cv.cvtColor(image, cv.COLOR_RGB2GRAY)
-    # # cv.imshow("fuck", canvas)
-    # # cv.waitKey(0)
-    # # canvas = cv.cvtColor(canvas, cv.COLOR_BGR2GRAY)
-    # result = cv.bitwise_and(canvas, canvas, mask=image)
-    # cv.imshow("w", result)
-    # cv.waitKey(0)
-    # tmp_match(template, image)
-
-    
+def match(imgdir):
 
     # img = cv.imread("./test/types2.jpg")
-    temp = cv.imread("./test/longbar.jpg")
+    # temp = cv.imread("./test/longbar.jpg")
 
     for filename in os.listdir(imgdir):
         if filename.endswith(".jpg"):
             print(filename)
             img = cv.imread("./cam/" + filename)
             for temp in os.listdir(tempdir):
-                temps = cv.imread("./test/" + temp)
-                tmp_match(temps, img)
+                template = cv.imread("./test/" + temp)
+                tmp_match(template, img)
         else:
             continue
 
