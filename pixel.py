@@ -5,6 +5,7 @@ import os
 
 
 # imgdir = './cam'
+
 tempdir = './test'
 
 # I deleted the making letter code but keep it in the slice branch C.O
@@ -35,9 +36,19 @@ def create_match(temp, img, name, threshold=0.05):
     minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
     duplicate = img.copy()
 
-    loc = np.where( result >= threshold)  
-    for pt in zip(*loc[::-1]): 
-        cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,0,255), 1) 
+    if (name == "TM_SQDIFF_NORMED" ):
+        loc = np.where( result <= threshold)  
+        for pt in zip(*loc[::-1]): 
+            cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,0,255), 1) 
+    else:
+        loc = np.where( result >= threshold)  
+        for pt in zip(*loc[::-1]): 
+            cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,0,255), 1) 
+
+
+    # loc = np.where( result >= threshold)  
+    # for pt in zip(*loc[::-1]): 
+    #     cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,0,255), 1) 
 
     print(result)
 
@@ -51,17 +62,18 @@ def create_match(temp, img, name, threshold=0.05):
 
 def tmp_match(temp, img):
     # create_match(temp, img, "TM_CCOEFF", threshold=4*10**5)
-    create_match(temp, img, "TM_CCOEFF_NORMED", threshold=0.5)
+    # create_match(temp, img, "TM_CCOEFF_NORMED", threshold=0.6)
     # create_match(temp, img, "TM_CCORR", threshold=0.75)
-    create_match(temp, img, "TM_CCORR_NORMED", threshold=0.88)
+    # create_match(temp, img, "TM_CCORR_NORMED", threshold=0.9)
     # create_match(temp, img, "TM_SQDIFF", threshold=8*10**7)
-    # create_match(temp, img, "TM_SQDIFF_NORMED", threshold=0.99)
+    create_match(temp, img, "TM_SQDIFF_NORMED", threshold=0.7)
 
 def process():
     pass
 
 
 def match(imgdir):
+    print("got to temp matching!")
 
     # img = cv.imread("./test/types2.jpg")
     # temp = cv.imread("./test/longbar.jpg")
@@ -82,3 +94,5 @@ def match(imgdir):
     # cv.waitKey(0)
 
     # run(24, 18)
+
+# match(imgdir)

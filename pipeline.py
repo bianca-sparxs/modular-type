@@ -4,9 +4,9 @@ import glob
 import pixel
 
 #take in Image object from txt2img.py
-def imgPipe(image):
+def imgPipe(image_info):
     savepath = "./cam/img-1.jpg"
-    image.save(savepath)
+    image_info[0].save(savepath)
 
     imgdir = './cam'     # dir that stores the input image
     basename = 'img-*.jpg'      # name of the input image (
@@ -19,7 +19,7 @@ def imgPipe(image):
         imgwidth, imgheight = im.size
         print('Image size is: %d x %d ' % (imgwidth, imgheight))    # the size of the input image
         height = imgheight // 1     # the number decides how many columns you want
-        width = imgwidth // 5       # the number decides how many rows you want
+        width = imgwidth // image_info[1]       # the number decides how many rows you want
         start_num = 0
         for k, piece in enumerate(crop(im, height, width), start_num):
             img = Image.new('RGB', (width, height), 255)
@@ -28,7 +28,9 @@ def imgPipe(image):
             img.save(path)
             os.rename(path, os.path.join("./cam/cam%d.jpg" % int(k + 1)))
 
-    pixel.match(imgdir)
+    return imgdir
+
+    
     
     
 

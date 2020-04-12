@@ -2,14 +2,17 @@ from PIL import Image, ImageFont, ImageDraw
 import pipeline
 
 def converter(string):
+    lent = len(string)
+
 
     def getBound(txt, typ):
         testImg = Image.new('RGB', (1, 1))
         testDraw = ImageDraw.Draw(testImg)
+        print(testDraw.textsize(txt, typ))
         return testDraw.textsize(txt, typ)
 
 
-    fontface = "typefaces/Grand9K Pixel.ttf"
+    fontface = "typefaces/bpdots.squares-bold.otf"
     fontsize = 500
     bgColor = "white"
     color="black"
@@ -18,12 +21,11 @@ def converter(string):
 
 
     width, height = getBound(string, typeface)
-    image = Image.new('RGB', ( int(width + (width/2)), int(height + (height/2))), bgColor)
+    image = Image.new('RGB', (width, height+30), bgColor)
     draw = ImageDraw.Draw(image)
-    draw.text(((width/4), (height/4)), string, font=typeface, fill=color, size=fontsize)
-
+    draw.text((30, 15), string, font=typeface, fill=color, size=fontsize)
     image.show()
-    pipeline.imgPipe(image)
+    return pipeline.imgPipe([image, lent])
     # image.save("./test/output.jpg")
 
     # return string
