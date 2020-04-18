@@ -12,7 +12,7 @@ def crop(im, height, width):
 
 
 if __name__ == '__main__':
-    imgdir = ''     # dir that stores the input image
+    imgdir = './cam'     # dir that stores the input image
     basename = 'img-*.jpg'      # name of the input image (
     filelist = glob.glob(os.path.join(imgdir, basename))
     for filenum, infile in enumerate(filelist):
@@ -21,12 +21,12 @@ if __name__ == '__main__':
         im = Image.open(infile)
         imgwidth, imgheight = im.size
         print('Image size is: %d x %d ' % (imgwidth, imgheight))    # the size of the input image
-        height = imgheight // 3     # the number decides how many columns you want
-        width = imgwidth // 2       # the number decides how many rows you want
+        height = imgheight // 1     # the number decides how many columns you want
+        width = imgwidth // 5       # the number decides how many rows you want
         start_num = 0
         for k, piece in enumerate(crop(im, height, width), start_num):
             img = Image.new('RGB', (width, height), 255)
             img.paste(piece)
-            path = os.path.join("cam%d.jpg" % int(k + 1))
+            path = os.path.join("./cam/cam%d.jpg" % int(k + 1))
             img.save(path)
-            os.rename(path, os.path.join("cam%d.jpg" % int(k + 1)))
+            os.rename(path, os.path.join("./cam/cam%d.jpg" % int(k + 1)))

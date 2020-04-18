@@ -1,6 +1,12 @@
 import cv2 as cv
 import numpy as np
 import cv2
+import os
+
+
+imgdir = './cam'
+tempdir = './test'
+
 
 
 def run(row, col):
@@ -140,12 +146,12 @@ def create_match(temp, img, name, threshold=0.05):
 
 
 def tmp_match(temp, img):
-    create_match(temp, img, "TM_CCOEFF", threshold=4*10**5)
+    # create_match(temp, img, "TM_CCOEFF", threshold=4*10**5)
     create_match(temp, img, "TM_CCOEFF_NORMED", threshold=0.5)
     # create_match(temp, img, "TM_CCORR", threshold=0.75)
     # create_match(temp, img, "TM_CCORR_NORMED", threshold=0.75)
     # create_match(temp, img, "TM_SQDIFF", threshold=8*10**7)
-    create_match(temp, img, "TM_SQDIFF_NORMED", threshold=0.99)
+    # create_match(temp, img, "TM_SQDIFF_NORMED", threshold=0.99)
 
 def process():
     pass
@@ -165,9 +171,21 @@ if __name__ == "__main__":
     # cv.waitKey(0)
     # tmp_match(template, image)
 
-    img = cv.imread("./test/types2.jpg")
+    
+
+    # img = cv.imread("./test/types2.jpg")
     temp = cv.imread("./test/longbar.jpg")
-    tmp_match(temp, img)
+
+    for filename in os.listdir(imgdir):
+        if filename.endswith(".jpg"):
+            print(filename)
+            img = cv.imread("./cam/" + filename)
+            for temp in os.listdir(tempdir):
+                temps = cv.imread("./test/" + temp)
+                tmp_match(temps, img)
+        else:
+            continue
+
     # kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (2,2))
     # dilate = cv.dilate(img, kernel)
     # cv.imshow("what the fuck", dilate)
