@@ -55,9 +55,9 @@ def create_match(temp, img, name, threshold=0.05):
     # cv2.rectangle(duplicate, maxLoc, (maxLoc[0]+dimX, maxLoc[1]+dimY), (0, 255, 0), 1)
     print("{0}: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
           "\nThe max location:".format(name), maxLoc, "\n")
-    cv.imshow(name, duplicate)
+    # cv.imshow(name, duplicate)
     # cv.imshow(name, img_gray)
-    cv.waitKey(0)
+    # cv.waitKey(0)
 
 
 def tmp_match(temp, img):
