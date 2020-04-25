@@ -25,7 +25,7 @@ def converter(string):
     draw = ImageDraw.Draw(image)
     draw.text((30, 15), string, font=typeface, fill=color, size=fontsize)
     image.show()
-    return pipeline.imgPipe([image, lent])
+    pipeline.imgPipe([image, lent])
     # image.save("./test/output.jpg")
 
     # return string

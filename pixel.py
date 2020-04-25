@@ -4,6 +4,7 @@ import cv2
 import os
 
 
+
 # imgdir = './cam'
 
 tempdir = './test'
@@ -15,7 +16,8 @@ tempdir = './test'
 # 3. The images have to be the same size for bitwise operations, for now, use monospace(C.O)
 
 
-def create_match(temp, img, name, threshold=0.05):
+def create_match(temp, img, num, name, threshold=0.05):
+    print("create_match num is " + str(num))
     dimX = temp.shape[1]
     dimY = temp.shape[0]
 
@@ -39,7 +41,7 @@ def create_match(temp, img, name, threshold=0.05):
     if (name == "TM_SQDIFF_NORMED" ):
         loc = np.where( result <= threshold)  
         for pt in zip(*loc[::-1]): 
-            cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,0,255), 1) 
+            duplicate = cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,0,255), 1) 
     else:
         loc = np.where( result >= threshold)  
         for pt in zip(*loc[::-1]): 
@@ -56,17 +58,19 @@ def create_match(temp, img, name, threshold=0.05):
     print("{0}: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
           "\nThe max location:".format(name), maxLoc, "\n")
     # cv.imshow(name, duplicate)
-    # cv.imshow(name, img_gray)
+    
+    cv2.imwrite('temp_result/' + str(num) + 'a' + '.png', duplicate)
+    # cv2.destroyAllWindows()
     # cv.waitKey(0)
 
 
-def tmp_match(temp, img):
+def tmp_match(temp, img, num):
     # create_match(temp, img, "TM_CCOEFF", threshold=4*10**5)
     # create_match(temp, img, "TM_CCOEFF_NORMED", threshold=0.6)
     # create_match(temp, img, "TM_CCORR", threshold=0.75)
     # create_match(temp, img, "TM_CCORR_NORMED", threshold=0.9)
     # create_match(temp, img, "TM_SQDIFF", threshold=8*10**7)
-    create_match(temp, img, "TM_SQDIFF_NORMED", threshold=0.7)
+    create_match(temp, img, num, "TM_SQDIFF_NORMED", threshold=0.7)
 
 def process():
     pass
@@ -77,14 +81,17 @@ def match(imgdir):
 
     # img = cv.imread("./test/types2.jpg")
     # temp = cv.imread("./test/longbar.jpg")
-
+    
+    num = 0
     for filename in os.listdir(imgdir):
         if filename.endswith(".jpg"):
             print(filename)
             img = cv.imread("./cam/" + filename)
             for temp in os.listdir(tempdir):
                 template = cv.imread("./test/" + temp)
-                tmp_match(template, img)
+                tmp_match(template, img, num+1)
+                num +=1
+                print("num is " + str(num))
         else:
             continue
 

@@ -12,9 +12,7 @@ def start():
     if request.method == 'POST':
         inpt = request.form['letters']
         print(inpt)
-        imgdir = txt2img.converter(inpt)
-        print(imgdir)
-        pixel.match(imgdir)
+        txt2img.converter(inpt)
         # we're gonna end up returning... vectors shapes? downloaded STL files?
         return inpt
 

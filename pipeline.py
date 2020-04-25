@@ -28,7 +28,7 @@ def imgPipe(image_info):
             img.save(path)
             os.rename(path, os.path.join("./cam/cam%d.jpg" % int(k + 1)))
 
-    return imgdir
+    pixel.match(imgdir)
 
     
     
