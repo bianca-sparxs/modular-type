@@ -3,6 +3,7 @@ import pipeline
 
 def converter(string):
     lent = len(string)
+    chars = string.split("")
 
 
     def getBound(txt, typ):
@@ -25,7 +26,7 @@ def converter(string):
     draw = ImageDraw.Draw(image)
     draw.text((0, 15), string, font=typeface, fill=color, size=fontsize)
     image.show()
-    pipeline.imgPipe([image, lent])
+    pipeline.imgPipe([image, lent], chars)
     # image.save("./test/output.jpg")
 
     # return string

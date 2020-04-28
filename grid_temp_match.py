@@ -5,7 +5,8 @@ import glob
 import time
 import shutil
 
-fuck = []
+
+outDir = "slicers"
 
 def slice(im, height, width):
     """
@@ -67,7 +68,7 @@ def compare(dir, thresh):
         temp = cv.imread(dir + "/" + temp_file)
         temp_mirror = cv.flip(temp, 1)      # Flip the template horizontally
         candidates = {}
-        # print("\nloop",num)
+        print("\nloop",num)
 
         for img_file in inputs:
             img = cv.imread(dir + "/" + img_file)
@@ -112,22 +113,24 @@ def compare(dir, thresh):
         num += 1
 
     # print(parts_list)
-    shutil.rmtree("templates")
+    # shutil.rmtree(dir)
     # shutil.rmtree("lib")
     fuck = parts_list
     return parts_list
 
 
-def pipeline(outDir, letterDir, thresh=0.9):
+def pipeline(letterDir):
     """
     :param outDir: The directory that contains all the sliced parts
     :param letterDir: The directory that contains all the letters
     :param thresh: The thresh for template matching
     :return parts_list: List of parts that can patch letters together
     """
+    thresh=0.9
     sliceLetters(outDir, letterDir, "img-*.jpg")
     parts_list = compare(outDir, thresh)
     return parts_list
+
 
 
 def patch(letter, parts_dict, img_dir):
@@ -186,10 +189,10 @@ def patch(letter, parts_dict, img_dir):
     empty.save("what.jpg")
 
 
-if __name__ == "__main__":
-    # start = time.time()
-    result = pipeline("templates", "")
-    # end = time.time()
-    # print("\nentire thing took", round(end - start, 3), "second(s)")
-    # patch("A", fuck, "lib")
+# if __name__ == "__main__":
+#     # start = time.time()
+#     result = pipeline(, "")
+#     # end = time.time()
+#     # print("\nentire thing took", round(end - start, 3), "second(s)")
+#     # patch("A", fuck, "lib")
 

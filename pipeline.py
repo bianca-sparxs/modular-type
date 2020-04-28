@@ -1,11 +1,11 @@
 from PIL import Image
 import os
 import glob
-import pixel
+import grid_temp_match
 
 
 #take in Image object from txt2img.py
-def imgPipe(image_info):
+def imgPipe(image_info, chararray):
     savepath = "./cam/img-1.jpg"
     image_info[0].save(savepath)
 
@@ -14,8 +14,8 @@ def imgPipe(image_info):
     filelist = glob.glob(os.path.join(imgdir, basename))
 
     for filenum, infile in enumerate(filelist):
-        # print(filenum)  # not rly useful
-        # print(infile)   # not rly useful
+        print(filenum)  # not rly useful
+        print(infile)   # not rly useful
         im = Image.open(infile)
         imgwidth, imgheight = im.size
         print('Image size is: %d x %d ' % (imgwidth, imgheight))    # the size of the input image
@@ -25,13 +25,13 @@ def imgPipe(image_info):
         for k, piece in enumerate(crop(im, height, width), start_num):
             img = Image.new('RGB', (width, height), 255)
             img.paste(piece)
-            path = os.path.join("./cam/cam%d.jpg" % int(k + 1))
+            path = os.path.join("./cam/cam%d.jpg" % int(k + 1)) 
             img.save(path)
             os.rename(path, os.path.join("./cam/cam%d.jpg" % int(k + 1)))
     if os.path.exists(savepath):
         os.remove(savepath)
 
-    pixel.match(imgdir, (width, height))
+    grid_temp_match.pipeline(imgdir)
 
     
     
