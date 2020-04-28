@@ -1,7 +1,7 @@
 from PIL import Image, ImageFont, ImageDraw
 import pipeline
 
-def converter(string):
+def converter(string, font):
     string = string.replace(" ", "")
     lent = len(string)
     chars = list(string)
@@ -13,8 +13,11 @@ def converter(string):
         # print(testDraw.textsize(txt, typ))
         return testDraw.textsize(txt, typ)
 
+    if font == "pixel":
+        fontface = "typefaces/bpdots.squaresedit-Bold.otf"
+    else:
+        fontface = "typefaces/Atlas Typewriter-Regular copy.otf"
 
-    fontface = "typefaces/bpdots.squaresedit-Bold.otf"
     fontsize = 500
     bgColor = "white"
     color="black"

@@ -10,7 +10,9 @@ def start():
     if request.method == 'POST':
         inpt = request.form['letters']
         print(inpt)
-        ans = txt2img.converter(inpt)
+
+        font = request.form.get('typeface')
+        ans = txt2img.converter(inpt, font)
         # print(ans)
         # we're gonna end up returning... vectors shapes? downloaded STL files?
         return ans
