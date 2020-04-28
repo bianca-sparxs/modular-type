@@ -1,120 +1,56 @@
 import cv2 as cv
 import numpy as np
 import cv2
+import os
+import math
+
+# todo: clear temp_result and cam before 
+
+# imgdir = './cam'
+
+tempdir = './test'
 
 
-def run(row, col):
-    pic_A = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_B = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_C = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_D = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_E = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_F = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_G = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_H = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_I = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_J = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_K = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_L = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_M = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_N = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_O = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_P = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_Q = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_R = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_S = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_T = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_U = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_V = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_W = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_X = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_Y = np.zeros(shape=[row, col], dtype=np.uint8)
-    pic_Z = np.zeros(shape=[row, col], dtype=np.uint8)
+# I deleted the making letter code but keep it in the slice branch C.O
 
-    # for i in range(len(pic_A)):
-    #     for j in range(len(pic_A[0])):
-    #         pic_A[i][j] = 255
-    #         pic_B[i][j] = 255
-    #         pic_C[i][j] = 255
-    #         pic_D[i][j] = 255
-    #         pic_E[i][j] = 255
-    #         pic_F[i][j] = 255
-    #         pic_G[i][j] = 255
-    #         pic_H[i][j] = 255
-    #         pic_I[i][j] = 255
-    #         pic_J[i][j] = 255
-    #         pic_K[i][j] = 255
-    #         pic_L[i][j] = 255
-    #         pic_M[i][j] = 255
-    #         pic_N[i][j] = 255
-    #         pic_O[i][j] = 255
-    #         pic_P[i][j] = 255
-    #         pic_Q[i][j] = 255
-    #         pic_R[i][j] = 255
-    #         pic_S[i][j] = 255
-    #         pic_T[i][j] = 255
-    #         pic_U[i][j] = 255
-    #         pic_V[i][j] = 255
-    #         pic_W[i][j] = 255
-    #         pic_X[i][j] = 255
-    #         pic_Y[i][j] = 255
-    #         pic_Z[i][j] = 255
+# 1. Use which method to do the template matching?, CCOEFF_NORM seems to be the constant(C.O)
+# 2. How to cut the templates in to desire shape, You did that! :D 
+# 3. The images have to be the same size for bitwise operations, for now, use monospace(C.O)
 
-    # How to produce "A"
+def intersect(curr, point, twidth, theight):
+    if curr == [0,0]:
+        return False
+    else:
+        # print("curr0 is:" + str(curr[0]) + " curr1 is:" + str(curr[1]) + " point0 is:" + str(point[0]) + " point1 is:" + str(point[1]))
+        if curr[0] + twidth < point[0] + 0.3*twidth:
+            return False
+        if curr[1] + theight < point[1]:
+            return False
 
-    for i in range(len(pic_A)):
-        for j in range(len(pic_A[0])):
-            if j == 0 or j == col - 1:
-                pic_A[i][j] = 0
-            if i == 0:
-                pic_A[i][j] = 0
-            if i == 3:
-                pic_A[i][j] = 0
+    return True
 
-    # How to produce "X"
-    # for i in range(len(pic_X)):
-    #     for j in range(len(pic_X[0])):
-    #         if i == j:
-    #             pic_X[i][j] = 0
+def confidence(pt, hotspots):
+    #confidence = 0; 
+    #for spot in hotspots: 
+    #if euclidean distance of pt, spot > confidence:
+    #confidence = euclid distance of pt, spot
+    #return confidence
 
-    # How to produce "C"
-    for i in range(len(pic_C)):
-        for j in range(len(pic_C[0])):
-            if i == 0 or i == len(pic_C) - 1:
-                pic_C[i][j] = 0
-            if j == 0:
-                pic_C[i][j] = 0
-
-    # How to produce "B"
-    for i in range(len(pic_B)):
-        for j in range(len(pic_C[0])):
-            if i == 0 or i == len(pic_B) - 1:
-                pic_B[i][j] = 255
-            if j == 0 or j == len(pic_C[0]) - 1:
-                pic_B[i][j] = 255
-            if i == len(pic_B) // 2 - 1:
-                pic_B[i][j] = 255
-
-    # cv.imwrite("letter_C.jpg", pic_C)
-    # cv.imwrite("letter_A.jpg", pic_A)
-    cv.imwrite("letter_B.jpg", pic_B)
-    # cv.imwrite("letter_c.jpg", pic_C)
-    # cv.imwrite("letter_c.jpg", pic_C)
-
-
-# 1. Use which method to do the template matching?
-# 2. How to cut the templates in to desire shape
-# 3. The images have to be the same size for bitwise operations
-# 4.
-def create_match(temp, img, name, threshold=0.05):
+    return
+        
+def create_match(temp, img, num, key, dic, name, threshold):
     dimX = temp.shape[1]
     dimY = temp.shape[0]
+    match_count = 0
 
 
-# the first element in the temp of T-Top is 3— is that like alpha channel or something?
+# the first element in the temp of TTop is 3 is that like alpha channel or something?
+# I noticed that too... it's something like that, or maybe it stands for 3 colourspace (RGB)?
+# also i love writing notes in the comments lol
+
     w = temp.shape[1]
     h = temp.shape[0]
-    print('img shape {0}, temp shape {1}'.format(img.shape, temp.shape))
+    # print('img shape {0}, temp shape {1}'.format(img.shape, temp.shape))
     # print('w,h: {0},{1}, {2}'.format(w,h, temp.shape))
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     temp_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -123,54 +59,92 @@ def create_match(temp, img, name, threshold=0.05):
     # cv2.rectangle(img_rgb, pt, (pt[0] + w, pt[1] + h), (0,255,255), 2) 
     minScore, maxScore, minLoc, maxLoc = cv2.minMaxLoc(result)
     duplicate = img.copy()
+    curr = [0,0]
 
-    loc = np.where( result >= threshold)  
-    for pt in zip(*loc[::-1]): 
-        cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,0,255), 1) 
+    if (name == "TM_SQDIFF_NORMED" ):
+        loc = np.where( result <= threshold)  
+        for pt in zip(*loc[::-1]): 
+            duplicate = cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,0,255), 1) 
+    else:
+        loc = np.where( result >= threshold)  
+        for pt in sorted(zip(*loc[::-1])):
+            # print(pt)
+            if intersect(curr, pt, w, h):
+                pass
+            else:
+                # if confidence(pt, hotspots ) > 5:
+                match_count += 1
+                # print(pt)
+                curr = pt
+                cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,0,255), 1)
+           
 
-    print(result)
+    # print("times we've seen " + key + ": " + str(match_count))
 
+    if match_count > dic[key]:
+        dic[key] = match_count
+
+    # loc = np.where( result >= threshold)  
+    # for pt in zip(*loc[::-1]): 
+    #     cv2.rectangle(duplicate, pt, (pt[0] + w, pt[1] + h), (0,0,255), 1) 
+
+    # print(result)
 
     # cv2.rectangle(duplicate, maxLoc, (maxLoc[0]+dimX, maxLoc[1]+dimY), (0, 255, 0), 1)
-    print("{0}: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
-          "\nThe max location:".format(name), maxLoc, "\n")
-    cv.imshow(name, duplicate)
-    # cv.imshow(name, img_gray)
-    cv.waitKey(0)
+    # print("{0}: \nThe min score:", minScore, "\nThe max score", maxScore, "\nThe min location:", minLoc,
+    #       "\nThe max location:".format(name), maxLoc, "\n")
+    # cv.imshow(name, duplicate)
+    
+    cv2.imwrite('temp_result/' + str(num) + 'a' + '.png', duplicate)
+    # cv2.destroyAllWindows()
+    # cv.waitKey(0)
 
 
-def tmp_match(temp, img):
-    create_match(temp, img, "TM_CCOEFF", threshold=4*10**5)
-    create_match(temp, img, "TM_CCOEFF_NORMED", threshold=0.5)
+def tmp_match(temp, img, num, key, dic):
+    # create_match(temp, img, "TM_CCOEFF", threshold=4*10**5)
+    create_match(temp, img, num, key, dic, "TM_CCOEFF_NORMED", threshold=0.75)
     # create_match(temp, img, "TM_CCORR", threshold=0.75)
-    # create_match(temp, img, "TM_CCORR_NORMED", threshold=0.75)
+    # create_match(temp, img, "TM_CCORR_NORMED", threshold=0.9)
     # create_match(temp, img, "TM_SQDIFF", threshold=8*10**7)
-    create_match(temp, img, "TM_SQDIFF_NORMED", threshold=0.99)
+    # create_match(temp, img, num, "TM_SQDIFF_NORMED", threshold=0.01)
 
 def process():
     pass
 
 
-if __name__ == "__main__":
-    pass
-    # template = cv.imread("letter_A.jpg")
-    # image = cv.imread("letter_B.jpg")
-    # canvas = np.zeros(shape=[48, 36], dtype=np.uint8)
-    # image = cv.cvtColor(image, cv.COLOR_RGB2GRAY)
-    # # cv.imshow("fuck", canvas)
-    # # cv.waitKey(0)
-    # # canvas = cv.cvtColor(canvas, cv.COLOR_BGR2GRAY)
-    # result = cv.bitwise_and(canvas, canvas, mask=image)
-    # cv.imshow("w", result)
-    # cv.waitKey(0)
-    # tmp_match(template, image)
+def match(imgdir, lettersize):
+    num = 0
+    matches = {}
+    colunit = math.floor(lettersize[0] / 2)
+    rowunit = math.floor(lettersize[1] / 3)
+    #probably shoudln't we hardcoded but shwhatever:
+    hotspots = [(0,0),(colunit, 0),(0,rowunit),(colunit, rowunit),(0,rowunit*2),(colunit,rowunit*2)]
 
-    img = cv.imread("./test/types2.jpg")
-    temp = cv.imread("./test/longbar.jpg")
-    tmp_match(temp, img)
+    print(hotspots)
+    # print(colunit)
+    # print(rowunit)
+    
+    for filename in os.listdir(imgdir):
+        if filename.endswith(".jpg"):
+            # print(filename)
+            img = cv.imread("./cam/" + filename)
+            for temp in os.listdir(tempdir):
+                if temp not in matches.keys():
+                     matches[temp] = 0
+                key = temp
+                template = cv.imread("./test/" + temp)
+                tmp_match(template, img, num+1, key, matches)
+                num +=1
+                # print("num is " + str(num))
+        else:
+            continue
+
     # kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (2,2))
     # dilate = cv.dilate(img, kernel)
     # cv.imshow("what the fuck", dilate)
     # cv.waitKey(0)
 
     # run(24, 18)
+    print(matches)
+
+# match(imgdir)
