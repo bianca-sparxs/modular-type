@@ -1,7 +1,5 @@
 from flask import Flask, request, render_template
 import txt2img
-import pixel
-
 import io
 
 app = Flask(__name__)
@@ -12,9 +10,10 @@ def start():
     if request.method == 'POST':
         inpt = request.form['letters']
         print(inpt)
-        txt2img.converter(inpt)
+        ans = txt2img.converter(inpt)
+        # print(ans)
         # we're gonna end up returning... vectors shapes? downloaded STL files?
-        return inpt
+        return ans
 
 
     # the code below is executed if the request method

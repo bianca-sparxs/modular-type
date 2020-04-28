@@ -6,6 +6,7 @@ import grid_temp_match
 
 #take in Image object from txt2img.py
 def imgPipe(image_info, chararray):
+    os.mkdir("cam")
     savepath = "./cam/img-1.jpg"
     image_info[0].save(savepath)
 
@@ -13,8 +14,11 @@ def imgPipe(image_info, chararray):
     basename = 'img-*.jpg'      # name of the input image (
     filelist = glob.glob(os.path.join(imgdir, basename))
 
+    count = 0
+
     for filenum, infile in enumerate(filelist):
         print(filenum)  # not rly useful
+        print("ha")
         print(infile)   # not rly useful
         im = Image.open(infile)
         imgwidth, imgheight = im.size
@@ -25,13 +29,18 @@ def imgPipe(image_info, chararray):
         for k, piece in enumerate(crop(im, height, width), start_num):
             img = Image.new('RGB', (width, height), 255)
             img.paste(piece)
-            path = os.path.join("./cam/cam%d.jpg" % int(k + 1)) 
+            # path = os.path.join("./cam/cam%d.jpg" % int(k + 1)) 
+            path = os.path.join("./cam/" + chararray[count] + ".jpg")
             img.save(path)
-            os.rename(path, os.path.join("./cam/cam%d.jpg" % int(k + 1)))
+            # os.rename(path, os.path.join("./cam/cam%d.jpg" % int(k + 1)))
+            os.rename(path, os.path.join("./cam/img-" + chararray[count] + ".jpg"))
+            count += 1
+            # print(count)
+
     if os.path.exists(savepath):
         os.remove(savepath)
 
-    grid_temp_match.pipeline(imgdir)
+    return grid_temp_match.pipeline(imgdir)
 
     
     

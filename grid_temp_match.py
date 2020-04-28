@@ -33,7 +33,8 @@ def sliceLetters(name, imgdir, basename):
     filelist = glob.glob(os.path.join(imgdir, basename))
 
     for filenum, infile in enumerate(filelist):
-        result = infile[:5]
+        result = infile[6:11]
+        # print(infile)
         im = Image.open(infile)
         imgwidth, imgheight = im.size
         height = imgheight // 3     # the number decides how many columns you want
@@ -68,7 +69,7 @@ def compare(dir, thresh):
         temp = cv.imread(dir + "/" + temp_file)
         temp_mirror = cv.flip(temp, 1)      # Flip the template horizontally
         candidates = {}
-        print("\nloop",num)
+        # print("\nloop",num)
 
         for img_file in inputs:
             img = cv.imread(dir + "/" + img_file)
@@ -113,8 +114,18 @@ def compare(dir, thresh):
         num += 1
 
     # print(parts_list)
-    # shutil.rmtree(dir)
-    # shutil.rmtree("lib")
+    shutil.rmtree(dir)
+    shutil.rmtree("./cam")
+    
+    if not os.path.exists("answers"):
+        shutil.copytree("lib", "answers")
+    #     else:
+    #         shutil.
+
+    
+    shutil.rmtree("lib")
+
+
     fuck = parts_list
     return parts_list
 
