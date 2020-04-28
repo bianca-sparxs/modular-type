@@ -8,11 +8,11 @@ def converter(string):
     def getBound(txt, typ):
         testImg = Image.new('RGB', (1, 1))
         testDraw = ImageDraw.Draw(testImg)
-        print(testDraw.textsize(txt, typ))
+        # print(testDraw.textsize(txt, typ))
         return testDraw.textsize(txt, typ)
 
 
-    fontface = "typefaces/bpdots.squares-bold.otf"
+    fontface = "typefaces/bpdots.squaresedit-Bold.otf"
     fontsize = 500
     bgColor = "white"
     color="black"
@@ -23,7 +23,7 @@ def converter(string):
     width, height = getBound(string, typeface)
     image = Image.new('RGB', (width, height+30), bgColor)
     draw = ImageDraw.Draw(image)
-    draw.text((30, 15), string, font=typeface, fill=color, size=fontsize)
+    draw.text((0, 15), string, font=typeface, fill=color, size=fontsize)
     image.show()
     pipeline.imgPipe([image, lent])
     # image.save("./test/output.jpg")

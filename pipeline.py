@@ -3,6 +3,7 @@ import os
 import glob
 import pixel
 
+
 #take in Image object from txt2img.py
 def imgPipe(image_info):
     savepath = "./cam/img-1.jpg"
@@ -13,8 +14,8 @@ def imgPipe(image_info):
     filelist = glob.glob(os.path.join(imgdir, basename))
 
     for filenum, infile in enumerate(filelist):
-        print(filenum)  # not rly useful
-        print(infile)   # not rly useful
+        # print(filenum)  # not rly useful
+        # print(infile)   # not rly useful
         im = Image.open(infile)
         imgwidth, imgheight = im.size
         print('Image size is: %d x %d ' % (imgwidth, imgheight))    # the size of the input image
@@ -27,8 +28,10 @@ def imgPipe(image_info):
             path = os.path.join("./cam/cam%d.jpg" % int(k + 1))
             img.save(path)
             os.rename(path, os.path.join("./cam/cam%d.jpg" % int(k + 1)))
+    if os.path.exists(savepath):
+        os.remove(savepath)
 
-    pixel.match(imgdir)
+    pixel.match(imgdir, (width, height))
 
     
     
