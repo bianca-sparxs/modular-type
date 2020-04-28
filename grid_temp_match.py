@@ -145,7 +145,7 @@ def pipeline(letterDir):
 
 
 def patch(letter, parts_dict, img_dir):
-    empty = Image.new('RGB', (320, 444))
+    empty = Image.new('RGB', (300, 375))
     current_wid = 0
     current_hei = 0
     # parts_list = parts_dict[letter]
