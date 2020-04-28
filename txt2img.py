@@ -12,7 +12,7 @@ def converter(string):
         return testDraw.textsize(txt, typ)
 
 
-    fontface = "typefaces/bpdots.squaresedit-Bold.otf"
+    fontface = "typefaces/Atlas Typewriter-Regular copy.otf"
     fontsize = 500
     bgColor = "white"
     color="black"
