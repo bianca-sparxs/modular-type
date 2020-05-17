@@ -3,7 +3,7 @@ import os
 import glob
 import grid_temp_match
 
-
+# git with windows take one lol
 #take in Image object from txt2img.py
 def imgPipe(image_info, chararray):
     os.mkdir("cam")
